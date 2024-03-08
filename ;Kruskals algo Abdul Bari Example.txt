@@ -1,0 +1,90 @@
+;Kruskals algo Abdul Bari Example
+
+
+- Putting every edge in a heap
+
+- Note: Folding happens below in the find step
+
+- Initializing array (1-8) (0th index ignore)
+- [N, -1, -1, -1, -1, -1, -1, -1, -1]
+
+- Smallest: (1,2)
+- Find: separate
+- Union
+- [N, -2, 1, -1, -1, -1, -1, -1, -1]
+
+- Next: (3,4)
+- Find: sep
+- Union
+- [N, -2, 1, -2, 3, -1, -1, -1, -1]
+
+- Next: (5,6)
+- Find: sep
+- Union
+- [N, -2, 1, -2, 3, -2, 5, -1, -1]
+
+- Next: (7,8)
+- Find: sep
+- Union
+- [N, -2, 1, -2, 3, -2, 5, -2, 7]
+
+- Next: (2,4)
+- Find: sep
+- Union
+- [N, -4, 1, 1, 3, -2, 5, -2, 7] OR [N, -4, 1, 1, 1, -2, 5, -2, 7]
+
+- Next: (2,5)
+- Find: sep
+- Union
+- [N, -6, 1, 1, 3, 1, 5, -2, 7] OR [N, -6, 1, 1, 1, 1, 1, -2, 7]
+
+- Next: (1,3)
+- Find: same, cannot
+- No Union
+- [N, -6, 1, 1, 3, 1, 5, -2, 7] OR [N, -6, 1, 1, 1, 1, 1, -2, 7]
+
+- Next: (6,8)
+- Find: sep
+- Union
+- [N, -8, 1, 1, 3, 1, 5, 1, 7] OR [N, -8, 1, 1, 1, 1, 1, 1, 1]
+
+- Next: (5,7)
+- Find: same, cannot
+- No Union
+- [N, -8, 1, 1, 3, 1, 5, 1, 7] OR [N, -8, 1, 1, 1, 1, 1, 1, 1]
+
+
+class unionfind {
+    def __init__(self, vertexCount):
+        self.arr = [-1 for i in range(vertexCount +1)]
+
+    def find(self, v):
+        #base case - parent found
+        if self.arr[v] < 1:
+            return v
+
+        #rec case - keep folding
+        parent = self.find(self.arr[v])
+        self.arr[v] = parent
+        return parent
+
+    def union(self, v1, v2):
+        #find parents
+        p1 = self.find(v1)
+        p2 = self.find(v2)
+        if p1 == p2:
+            return
+
+        #make larger tree parent of smaller
+        parent, child = p1, p2
+        if abs(self.arr[p2]) > abs(self.arr[p1]):
+            parent, child = p2, p1
+        self.arr[parent] += self.arr[child]
+        self.arr[child] = parent
+
+
+        
+
+        
+}
+
